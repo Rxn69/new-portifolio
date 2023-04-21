@@ -1,39 +1,25 @@
-/*------------------------------------------------------------------------------------
-  Javascript Loader
-  Loads javascripts for the site.
-  Notes on directory structure:
-    /lib/ - for self-sustaining javascript libraries (no library requirement)
-    /plugins/ - generic libraries that depend on other libraries
-    /modules/ - useful for widget-specific functionality encapsulation
-    /application.js - should hold all triggers for javascript execution
-------------------------------------------------------------------------------------*/
+function copyToClipboard(text) {
+  const notification = new Notification({
+    title: 'Discord',
+    text: 'Discord username copied to clipboard!',
+    showProgress: true,
+    pauseOnHover: true,
+    pauseOnFocusLoss: true,
+    pauseOnHover: true,
+    pauseOnFocusLoss: true,
+    style: [
 
-// Load it up scotty
-var ScriptLoader = {
-  libs: [],
-  plugins: [],
-  modules: [],
-  
-  require: function(src) {
-    document.write('<script type="text/javascript" src="'+src+'"></script>');
-  },
-  load: function() {
-    var scriptTags = document.getElementsByTagName("script");
-    for(var i=0;i<scriptTags.length;i++) {
-      if(scriptTags[i].src && scriptTags[i].src.match(/scripts\.js$/)) {
-        var path = scriptTags[i].src.replace(/scripts\.js$/,'');
-        for (var k=0; k<this.libs.length; k++) this.require(path + "lib/" + this.libs[k] + ".js");
-        for (var k=0; k<this.plugins.length; k++) this.require(path + "plugins/" + this.plugins[k] + ".js");
-        for (var k=0; k<this.modules.length; k++) this.require(path + "modules/" + this.modules[k] + ".js");
-        this.require(path + "application.js");
-        break;
-      }
-    }
-  }
+    ]
+  });
+
+  var dummy = document.createElement("textarea");
+  // to avoid breaking orgain page when copying more words
+  // cant copy when adding below this code
+  // dummy.style.display = 'none'
+  document.body.appendChild(dummy);
+  //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+  dummy.value = text;
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
 }
-
-ScriptLoader.libs = ["mootools"];
-ScriptLoader.plugins = ["event_triggers","tabs"];
-ScriptLoader.modules = [];
-
-ScriptLoader.load();
