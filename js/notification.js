@@ -93,7 +93,9 @@ class Notification {
   set text(message) {
     this.#notificationElement.textContent = message;
   }
-
+  set thisClose(val) {
+    this.#notificationElement.classList.toggle('ahahaha', val)
+  }
   set canClose(value) {
     this.#notificationElement.classList.toggle('can-close', value);
     if (value) {
